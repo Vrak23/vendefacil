@@ -1,4 +1,5 @@
 import "./Banner.css";
+import { Link } from "react-router-dom";
 import heroImg from "../../assets/hero.png";
 
 function Banner() {
@@ -49,16 +50,16 @@ function Banner() {
           </div>
 
           <div className="banner__buttons">
-            <button className="btn btn-primary">
+            <Link to="/tendencias" className="btn btn-primary">
               Comprar ahora
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
-            </button>
+            </Link>
 
-            <button className="btn btn-ghost">
+            <Link to="/catalogo" className="btn btn-ghost">
               Ver catálogo
-            </button>
+            </Link>
           </div>
 
         </div>

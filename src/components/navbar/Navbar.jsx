@@ -1,18 +1,19 @@
 import { useState, useEffect } from "react";
+import { Link, NavLink } from "react-router-dom";
 import "./Navbar.css";
+import { useCart } from "../../context/useCart";
 
 const NAV_LINKS = [
-  { label: "Inicio",    href: "#" },
-  { label: "Catálogo",  href: "#productos" },
-  { label: "Tendencias",href: "#tendencias" },
-  { label: "Soporte",   href: "#soporte" },
+  { label: "Inicio",     to: "/"          },
+  { label: "Catálogo",   to: "/catalogo" },
+  { label: "Tendencias", to: "/tendencias" },
+  { label: "Soporte",    to: "/soporte"  },
 ];
 
 function Navbar() {
-  const [scrolled,    setScrolled]    = useState(false);
-  const [menuOpen,    setMenuOpen]    = useState(false);
-  const [activeLink,  setActiveLink]  = useState("Inicio");
-  const [cartCount]                   = useState(3);
+  const [scrolled,  setScrolled]  = useState(false);
+  const [menuOpen,  setMenuOpen]  = useState(false);
+  const { cartCount }             = useCart();
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 20);
@@ -20,14 +21,13 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Cerrar menu al redimensionar a desktop
   useEffect(() => {
-    const onResize = () => {
-      if (window.innerWidth > 768) setMenuOpen(false);
-    };
+    const onResize = () => { if (window.innerWidth > 768) setMenuOpen(false); };
     window.addEventListener("resize", onResize);
     return () => window.removeEventListener("resize", onResize);
   }, []);
+
+  const closeMenu = () => setMenuOpen(false);
 
   return (
     <>
@@ -35,32 +35,28 @@ function Navbar() {
         <div className="navbar__inner">
 
           {/* Logo */}
-          <a href="#" className="navbar__logo">
-            <div className="navbar__logo-icon">⚡</div>
+          <Link to="/" className="navbar__logo">
             <span className="navbar__logo-text">
               Vende<span>Fácil</span>
             </span>
-          </a>
+          </Link>
 
-          {/* Links — desktop */}
+          {/* Links desktop — NavLink maneja el estado activo automáticamente */}
           <ul className="navbar__links">
-            {NAV_LINKS.map(({ label, href }) => (
+            {NAV_LINKS.map(({ label, to }) => (
               <li key={label}>
-                <a
-                  href={href}
-                  className={`navbar__link${activeLink === label ? " active" : ""}`}
-                  onClick={() => setActiveLink(label)}
+                <NavLink
+                  to={to}
+                  className={({ isActive }) => `navbar__link${isActive && to === "/" ? " active" : ""}`}
                 >
                   {label}
-                </a>
+                </NavLink>
               </li>
             ))}
           </ul>
 
           {/* Acciones */}
           <div className="navbar__actions">
-
-            {/* Búsqueda */}
             <button className="navbar__icon-btn" aria-label="Buscar">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="11" cy="11" r="7" />
@@ -68,53 +64,48 @@ function Navbar() {
               </svg>
             </button>
 
-            {/* Carrito */}
-            <button className="navbar__icon-btn" aria-label="Carrito">
+            <Link to="/carrito" className="navbar__icon-btn" aria-label={`Carrito, ${cartCount} productos`}>
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
                 <line x1="3" x2="21" y1="6" y2="6" strokeLinecap="round" />
                 <path d="M16 10a4 4 0 0 1-8 0" strokeLinecap="round" />
               </svg>
               {cartCount > 0 && (
-                <span className="navbar__cart-badge">{cartCount}</span>
+                <span className="navbar__cart-badge" aria-hidden="true">{cartCount}</span>
               )}
-            </button>
+            </Link>
 
-            {/* Hamburger — móvil */}
             <button
               className={`navbar__hamburger${menuOpen ? " open" : ""}`}
-              aria-label="Menú"
+              aria-label={menuOpen ? "Cerrar menú" : "Abrir menú"}
+              aria-expanded={menuOpen}
               onClick={() => setMenuOpen(prev => !prev)}
             >
               <span />
               <span />
               <span />
             </button>
-
           </div>
         </div>
       </nav>
 
       {/* Mobile menu */}
-      <div className={`navbar__mobile${menuOpen ? " open" : ""}`}>
-        {NAV_LINKS.map(({ label, href }, i) => (
-          <a
+      <div className={`navbar__mobile${menuOpen ? " open" : ""}`} role="navigation" aria-label="Menú móvil">
+        {NAV_LINKS.map(({ label, to }, i) => (
+          <Link
             key={label}
-            href={href}
+            to={to}
             className="navbar__mobile-link"
-            onClick={() => {
-              setActiveLink(label);
-              setMenuOpen(false);
-            }}
+            onClick={closeMenu}
             style={{ animationDelay: `${i * 40}ms` }}
           >
             {label}
-          </a>
+          </Link>
         ))}
         <div className="navbar__mobile-divider" />
-        <a href="#carrito" className="navbar__mobile-link" onClick={() => setMenuOpen(false)}>
+        <Link to="/carrito" className="navbar__mobile-link" onClick={closeMenu}>
           🛒 Carrito ({cartCount})
-        </a>
+        </Link>
       </div>
     </>
   );

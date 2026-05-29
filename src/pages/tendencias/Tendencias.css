@@ -1,0 +1,38 @@
+.tendencias{
+  padding: 120px 24px 80px;
+  min-height: 100vh;
+}
+
+.tendencias__inner{
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+.tendencias__header{
+  margin-bottom: 48px;
+}
+
+.tendencias__label{
+  color: #7c3aed;
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.tendencias__title{
+  font-size: clamp(42px, 5vw, 72px);
+  font-weight: 800;
+  margin: 12px 0;
+}
+
+.tendencias__subtitle{
+  opacity: 0.7;
+  max-width: 600px;
+}
+
+.tendencias__grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 24px;
+}
