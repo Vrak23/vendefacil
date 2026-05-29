@@ -1,0 +1,198 @@
+/* ═══════════════════════════════════════
+   PRODUCTS — VendeFácil
+═══════════════════════════════════════ */
+
+.products {
+  position: relative;
+  width: 100%;
+  padding: var(--space-3xl) 0;
+  background: var(--bg-base);
+  overflow: hidden;
+}
+
+/* Separador visual entre secciones */
+.products::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--border-default),
+    transparent
+  );
+}
+
+/* Glow de fondo */
+.products::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -10%;
+  width: 60%;
+  height: 50%;
+  background: radial-gradient(
+    ellipse at bottom right,
+    rgba(6, 182, 212, 0.04) 0%,
+    transparent 65%
+  );
+  pointer-events: none;
+}
+
+/* ── Layout ── */
+.products__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+/* ── Header ── */
+.products__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-xl);
+}
+
+.products__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.products__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  font-family: var(--font-display);
+}
+
+.products__title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+.products__title-line {
+  width: 48px;
+  height: 3px;
+  background: var(--grad-accent);
+  border-radius: var(--radius-pill);
+  margin-top: var(--space-sm);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ── Filtros / pills ── */
+.products__filters {
+  display: flex;
+  align-items: center;
+  gap: var(--space-sm);
+  margin-bottom: var(--space-2xl);
+  flex-wrap: wrap;
+}
+
+.products__filter {
+  padding: 7px 18px;
+  border-radius: var(--radius-pill);
+  font-size: 13px;
+  font-weight: 600;
+  font-family: var(--font-display);
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  border: 1px solid var(--border-subtle);
+  background: transparent;
+  color: var(--text-muted);
+  transition:
+    color var(--duration-fast) var(--ease-out),
+    background var(--duration-fast) var(--ease-out),
+    border-color var(--duration-fast) var(--ease-out),
+    box-shadow var(--duration-fast) var(--ease-out);
+}
+
+.products__filter:hover {
+  color: var(--text-secondary);
+  border-color: var(--border-default);
+}
+
+.products__filter.active {
+  background: var(--accent-subtle);
+  border-color: var(--border-strong);
+  color: var(--accent-bright);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+/* ── Grid ── */
+.products__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--space-lg);
+}
+
+/* ── Footer de sección ── */
+.products__footer {
+  display: flex;
+  justify-content: center;
+  margin-top: var(--space-2xl);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .products {
+    padding: var(--space-2xl) 0;
+  }
+
+  .products__inner {
+    padding: 0 var(--space-lg);
+  }
+
+  .products__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-lg);
+  }
+
+  .products__filters {
+    margin-bottom: var(--space-xl);
+  }
+
+  .products__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-md);
+  }
+}
+
+@media (max-width: 480px) {
+  .products__inner {
+    padding: 0 var(--space-md);
+  }
+
+  .products__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .products__filters {
+    gap: var(--space-xs);
+  }
+
+  .products__filter {
+    padding: 6px 14px;
+    font-size: 12px;
+  }
+}

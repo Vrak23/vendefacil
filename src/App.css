@@ -1,0 +1,12 @@
+/* App.css — Layout principal de VendeFácil */
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100svh;
+  background-color: var(--bg-void);
+}
+
+main {
+  flex: 1;
+}

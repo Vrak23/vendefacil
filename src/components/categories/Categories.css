@@ -1,0 +1,292 @@
+/* ═══════════════════════════════════════
+   CATEGORIES — VendeFácil
+═══════════════════════════════════════ */
+
+.categories {
+  position: relative;
+  width: 100%;
+  padding: var(--space-3xl) 0;
+  background: var(--bg-void);
+  overflow: hidden;
+}
+
+/* Glow de fondo sutil */
+.categories::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  height: 60%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(139, 92, 246, 0.06) 0%,
+    transparent 70%
+  );
+  pointer-events: none;
+}
+
+/* ── Header de sección ── */
+.categories__inner {
+  position: relative;
+  z-index: 1;
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 0 var(--space-xl);
+}
+
+.categories__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: var(--space-lg);
+  margin-bottom: var(--space-2xl);
+}
+
+.categories__heading {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.categories__label {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-bright);
+  font-family: var(--font-display);
+}
+
+.categories__title {
+  font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800;
+  color: var(--text-primary);
+  letter-spacing: -0.03em;
+  line-height: 1.1;
+}
+
+/* Línea decorativa bajo el título */
+.categories__title-line {
+  width: 48px;
+  height: 3px;
+  background: var(--grad-accent);
+  border-radius: var(--radius-pill);
+  margin-top: var(--space-sm);
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.categories__see-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  font-family: var(--font-display);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  cursor: pointer;
+  border: none;
+  background: transparent;
+  transition: color var(--duration-fast) var(--ease-out);
+  white-space: nowrap;
+  flex-shrink: 0;
+  padding-bottom: 4px;
+}
+
+.categories__see-all:hover {
+  color: var(--accent-bright);
+}
+
+.categories__see-all svg {
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.categories__see-all:hover svg {
+  transform: translateX(4px);
+}
+
+/* ── Grid de categorías ── */
+.categories__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: var(--space-lg);
+}
+
+/* ── Card de categoría ── */
+.category-card {
+  position: relative;
+  background: var(--grad-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  height: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  cursor: pointer;
+  overflow: hidden;
+  transition:
+    transform var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+/* Glow interno en hover */
+.category-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(
+    ellipse at center,
+    var(--accent-subtle) 0%,
+    transparent 70%
+  );
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+/* Borde top highlight */
+.category-card::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 20%;
+  right: 20%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    var(--accent-bright),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity var(--duration-base) var(--ease-out);
+}
+
+.category-card:hover {
+  transform: translateY(-6px);
+  border-color: var(--border-strong);
+  box-shadow:
+    var(--shadow-card),
+    0 0 20px rgba(139, 92, 246, 0.15);
+}
+
+.category-card:hover::before,
+.category-card:hover::after {
+  opacity: 1;
+}
+
+/* Ícono */
+.category-card__icon {
+  position: relative;
+  z-index: 1;
+  width: 56px;
+  height: 56px;
+  background: var(--accent-subtle);
+  border: 1px solid var(--border-default);
+  border-radius: var(--radius-md);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 26px;
+  line-height: 1;
+  transition:
+    background var(--duration-base) var(--ease-out),
+    border-color var(--duration-base) var(--ease-out),
+    box-shadow var(--duration-base) var(--ease-out);
+}
+
+.category-card:hover .category-card__icon {
+  background: rgba(139, 92, 246, 0.18);
+  border-color: var(--border-strong);
+  box-shadow: 0 0 16px var(--accent-glow);
+}
+
+/* Nombre */
+.category-card__name {
+  position: relative;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.01em;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.category-card:hover .category-card__name {
+  color: var(--text-primary);
+}
+
+/* Contador de productos */
+.category-card__count {
+  position: relative;
+  z-index: 1;
+  font-size: 11px;
+  color: var(--text-muted);
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: color var(--duration-fast) var(--ease-out);
+}
+
+.category-card:hover .category-card__count {
+  color: var(--accent-bright);
+}
+
+/* ── Responsive ── */
+@media (max-width: 1024px) {
+  .categories__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .categories {
+    padding: var(--space-2xl) 0;
+  }
+
+  .categories__inner {
+    padding: 0 var(--space-lg);
+  }
+
+  .categories__header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--space-md);
+    margin-bottom: var(--space-xl);
+  }
+
+  .categories__grid {
+    gap: var(--space-md);
+  }
+
+  .category-card {
+    height: 160px;
+  }
+}
+
+@media (max-width: 480px) {
+  .categories__inner {
+    padding: 0 var(--space-md);
+  }
+
+  .categories__grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-sm);
+  }
+
+  .category-card {
+    height: 140px;
+  }
+
+  .category-card__icon {
+    width: 48px;
+    height: 48px;
+    font-size: 22px;
+  }
+}
