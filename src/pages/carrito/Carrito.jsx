@@ -22,7 +22,7 @@ function Carrito() {
             <h1 className="carrito__title">Carrito</h1>
           </div>
 
-          <Link to="/#catalogo" className="btn btn-ghost">
+          <Link to="/catalogo" className="btn btn-ghost">
             Seguir comprando
           </Link>
         </header>

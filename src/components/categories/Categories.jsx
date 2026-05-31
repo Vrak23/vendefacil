@@ -1,32 +1,13 @@
 import "./Categories.css";
 import { useNavigate } from "react-router-dom";
+import { PRODUCT_CATEGORIES, ALL_PRODUCTS } from "../../data/products";
 
-const CATEGORIES = [
-  {
-    name: "Electrónicos",
-    slug: "electronicos",
-    icon: "💻",
-    count: "340 productos",
-  },
-  {
-    name: "Gaming",
-    slug: "gaming",
-    icon: "🎮",
-    count: "218 productos",
-  },
-  {
-    name: "Audio",
-    slug: "audio",
-    icon: "🎧",
-    count: "95 productos",
-  },
-  {
-    name: "Accesorios",
-    slug: "accesorios",
-    icon: "⌨️",
-    count: "172 productos",
-  },
-];
+const CATEGORY_ICONS = {
+  electronicos: "💻",
+  gaming:       "🎮",
+  audio:        "🎧",
+  accesorios:   "⌨️",
+};
 
 function Categories() {
   const navigate = useNavigate();
@@ -42,7 +23,7 @@ function Categories() {
             <div className="categories__title-line" aria-hidden="true" />
           </div>
 
-          <button className="categories__see-all">
+          <button className="categories__see-all" onClick={() => navigate("/catalogo")}>
             Ver todas
             <svg
               width="14"
@@ -61,19 +42,22 @@ function Categories() {
 
         {/* Grid */}
         <div className="categories__grid">
-          {CATEGORIES.map((cat, i) => (
+          {PRODUCT_CATEGORIES.map(cat => (
             <div
               className="category-card"
-              key={i}
+              key={cat.slug}
               role="button"
               tabIndex={0}
               onClick={() => navigate(`/catalogo?categoria=${cat.slug}`)}
+              onKeyDown={e => e.key === "Enter" && navigate(`/catalogo?categoria=${cat.slug}`)}
             >
               <div className="category-card__icon" aria-hidden="true">
-                {cat.icon}
+                {CATEGORY_ICONS[cat.slug]}
               </div>
               <span className="category-card__name">{cat.name}</span>
-              <span className="category-card__count">{cat.count}</span>
+              <span className="category-card__count">
+                {ALL_PRODUCTS.filter(p => p.category === cat.slug).length} productos
+              </span>
             </div>
           ))}
         </div>

@@ -1,92 +1,38 @@
 import "./ProductCard.css";
-import { useCart } from "../../context/useCart";
+import ProductCard from "../productCard/ProductCard";
+import { FEATURED_PRODUCTS } from "../../data/products";
 
-// Recibe un objeto `product` completo — no props individuales
-function ProductCard({ product }) {
-  const { addToCart } = useCart();
-
-  const {
-    title,
-    price,
-    image,
-    isNew = false,
-    discount = null,
-    rating = 4.5,
-    reviews = 0,
-  } = product;
-
-  const originalPrice = discount
-    ? Math.round(price / (1 - discount / 100))
-    : null;
-
-  const stars = Array.from({ length: 5 }, (_, i) =>
-    i < Math.floor(rating) ? "★" : "☆"
-  );
-
-  const handleAddToCart = e => {
-    e.stopPropagation();
-    addToCart(product);
-  };
-
+function Products() {
   return (
-    <div className="product-card">
+    <section className="products">
+      <div className="products__inner">
 
-      <div className="product-card__image">
-        <img src={image} alt={title} loading="lazy" />
-        <div className="product-card__image-overlay" aria-hidden="true" />
-
-        <div className="product-card__badges">
-          {isNew && (
-            <span className="product-card__badge product-card__badge--new">Nuevo</span>
-          )}
-          {discount && (
-            <span className="product-card__badge product-card__badge--sale">-{discount}%</span>
-          )}
-        </div>
-
-        <button className="product-card__wishlist" aria-label="Guardar en favoritos">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" strokeLinecap="round" strokeLinejoin="round" />
-          </svg>
-        </button>
-
-        <button className="product-card__quick-add" aria-label="Agregar rápido" onClick={handleAddToCart}>
-          + Agregar rápido
-        </button>
-      </div>
-
-      <div className="product-card__info">
-
-        {reviews > 0 && (
-          <div className="product-card__rating">
-            <div className="product-card__stars" aria-label={`${rating} de 5 estrellas`}>
-              {stars.map((s, i) => <span key={i}>{s}</span>)}
-            </div>
-            <span className="product-card__rating-count">({reviews})</span>
+        <div className="products__header">
+          <div className="products__heading">
+            <span className="products__label">Colección</span>
+            <h2 className="products__title">Productos Destacados</h2>
+            <div className="products__title-line" aria-hidden="true" />
           </div>
-        )}
-
-        <h3 className="product-card__title">{title}</h3>
-
-        <div className="product-card__pricing">
-          <span className="product-card__price">S/ {price.toLocaleString()}</span>
-          {originalPrice && (
-            <span className="product-card__price-original">S/ {originalPrice.toLocaleString()}</span>
-          )}
         </div>
 
-        <button className="product-card__add-btn" onClick={handleAddToCart}>
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
-            <line x1="3" x2="21" y1="6" y2="6" strokeLinecap="round" />
-            <path d="M16 10a4 4 0 0 1-8 0" strokeLinecap="round" />
-          </svg>
-          Agregar al carrito
-        </button>
+        <div className="products__grid">
+          {FEATURED_PRODUCTS.map(product => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+
+        <div className="products__footer">
+          <button className="btn btn-ghost">
+            Ver todos los productos
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
 
       </div>
-    </div>
+    </section>
   );
 }
 
-export default ProductCard;
+export default Products;

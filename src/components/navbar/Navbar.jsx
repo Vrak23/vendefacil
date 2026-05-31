@@ -47,7 +47,7 @@ function Navbar() {
               <li key={label}>
                 <NavLink
                   to={to}
-                  className={({ isActive }) => `navbar__link${isActive && to === "/" ? " active" : ""}`}
+                  className={({ isActive }) => `navbar__link${isActive ? " active" : ""}`}
                 >
                   {label}
                 </NavLink>
