@@ -71,9 +71,7 @@
   background: var(--bg-surface);
 }
 
-.carrito__item-info {
-  min-width: 0;
-}
+.carrito__item-info { min-width: 0; }
 
 .carrito__item-category {
   display: block;
@@ -116,6 +114,7 @@
   color: var(--accent-bright);
   font-size: 16px;
   font-weight: 800;
+  cursor: pointer;
 }
 
 .carrito__quantity span {
@@ -136,6 +135,7 @@
   border: 1px solid rgba(239, 68, 68, 0.24);
   border-radius: var(--radius-sm);
   color: #f87171;
+  cursor: pointer;
 }
 
 .carrito__remove svg {
@@ -201,6 +201,7 @@
   font-weight: 700;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  cursor: pointer;
 }
 
 .carrito__clear:hover {
@@ -237,51 +238,152 @@
   stroke-width: 1.8;
 }
 
-.carrito__empty h2 {
-  font-size: 26px;
+.carrito__empty h2 { font-size: 26px; }
+.carrito__empty p { max-width: 360px; }
+
+/* Modal - usando variables del tema */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.2s;
 }
 
-.carrito__empty p {
-  max-width: 360px;
+.modal-content {
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  width: 90%;
+  max-width: 380px;
+  animation: slideUp 0.2s;
 }
 
+.modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--space-lg);
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 20px;
+  color: var(--text-primary);
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  background: var(--accent-subtle);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  color: var(--text-secondary);
+  font-size: 18px;
+}
+
+.modal-body { padding: var(--space-lg); }
+
+.modal-body p {
+  margin: 0 0 var(--space-md) 0;
+  color: var(--text-secondary);
+}
+
+.modal-summary {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-md);
+  padding: var(--space-md);
+  margin-bottom: var(--space-md);
+}
+
+.modal-summary > div {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.modal-total {
+  margin-top: 8px;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-subtle);
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.modal-total strong { color: var(--accent-bright); font-size: 18px; }
+
+.modal-products {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.modal-product {
+  font-size: 13px;
+  color: var(--text-secondary);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.modal-footer {
+  display: flex;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  border-top: 1px solid var(--border-subtle);
+}
+
+.modal-btn-confirm,
+.modal-btn-cancel {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius-md);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: var(--font-display);
+}
+
+.modal-btn-confirm {
+  background: #059669;
+  color: white;
+}
+
+.modal-btn-confirm:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.modal-btn-cancel {
+  background: var(--accent-subtle);
+  color: var(--text-secondary);
+}
+
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+/* Responsive */
 @media (max-width: 900px) {
-  .carrito__layout {
-    grid-template-columns: 1fr;
-  }
-
-  .carrito__summary {
-    position: static;
-  }
+  .carrito__layout { grid-template-columns: 1fr; }
+  .carrito__summary { position: static; }
 }
 
 @media (max-width: 680px) {
-  .carrito {
-    padding: var(--space-xl) var(--space-md);
-  }
-
-  .carrito__header {
-    align-items: flex-start;
-    flex-direction: column;
-  }
-
+  .carrito { padding: var(--space-xl) var(--space-md); }
+  .carrito__header { align-items: flex-start; flex-direction: column; }
   .carrito__item {
     grid-template-columns: 82px minmax(0, 1fr) auto;
     gap: var(--space-md);
   }
-
-  .carrito__item-image {
-    width: 82px;
-    height: 82px;
-  }
-
+  .carrito__item-image { width: 82px; height: 82px; }
   .carrito__quantity,
-  .carrito__item-subtotal {
-    grid-column: 2 / 3;
-  }
-
-  .carrito__remove {
-    grid-column: 3 / 4;
-    grid-row: 1 / 2;
-  }
+  .carrito__item-subtotal { grid-column: 2 / 3; }
+  .carrito__remove { grid-column: 3 / 4; grid-row: 1 / 2; }
 }

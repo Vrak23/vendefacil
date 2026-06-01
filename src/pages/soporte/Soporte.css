@@ -1,7 +1,3 @@
-/* ═══════════════════════════════════════
-   SOPORTE — VendeFácil
-═══════════════════════════════════════ */
-
 .soporte {
   min-height: calc(100svh - var(--navbar-h));
   background: var(--bg-void);

@@ -1,4 +1,5 @@
 import { useState } from "react";
+import emailjs from "@emailjs/browser";
 import "./Soporte.css";
 
 const CONTACT_CARDS = [
@@ -6,8 +7,8 @@ const CONTACT_CARDS = [
     id: "whatsapp",
     icon: (
       <svg viewBox="0 0 24 24" fill="currentColor">
-        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
-        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.528 5.837L.057 23.882a.5.5 0 0 0 .61.632l6.228-1.634A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.384l-.363-.217-3.762.987.998-3.648-.236-.374A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/>
+        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" />
+        <path d="M12 0C5.373 0 0 5.373 0 12c0 2.123.554 4.112 1.528 5.837L.057 23.882a.5.5 0 0 0 .61.632l6.228-1.634A11.945 11.945 0 0 0 12 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.944 9.944 0 0 1-5.073-1.384l-.363-.217-3.762.987.998-3.648-.236-.374A9.944 9.944 0 0 1 2 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z" />
       </svg>
     ),
     label: "WhatsApp",
@@ -22,9 +23,16 @@ const CONTACT_CARDS = [
   {
     id: "correo",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <rect width="20" height="16" x="2" y="4" rx="2"/>
-        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <rect width="20" height="16" x="2" y="4" rx="2" />
+        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
       </svg>
     ),
     label: "Correo",
@@ -39,12 +47,19 @@ const CONTACT_CARDS = [
   {
     id: "atencion",
     icon: (
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.75" strokeLinecap="round" strokeLinejoin="round">
-        <path d="M18 20a6 6 0 0 0-12 0"/>
-        <circle cx="12" cy="10" r="4"/>
-        <circle cx="6" cy="6" r="1" fill="currentColor"/>
-        <circle cx="18" cy="6" r="1" fill="currentColor"/>
-        <path d="M6 6C6 3.79 8.69 2 12 2s6 1.79 6 4"/>
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      >
+        <path d="M18 20a6 6 0 0 0-12 0" />
+        <circle cx="12" cy="10" r="4" />
+        <circle cx="6" cy="6" r="1" fill="currentColor" />
+        <circle cx="18" cy="6" r="1" fill="currentColor" />
+        <path d="M6 6C6 3.79 8.69 2 12 2s6 1.79 6 4" />
       </svg>
     ),
     label: "Atención al cliente",
@@ -84,7 +99,7 @@ function FaqItem({ q, a }) {
     <div className={`soporte__faq-item${open ? " open" : ""}`}>
       <button
         className="soporte__faq-q"
-        onClick={() => setOpen(prev => !prev)}
+        onClick={() => setOpen((prev) => !prev)}
         aria-expanded={open}
       >
         <span>{q}</span>
@@ -106,20 +121,49 @@ function FaqItem({ q, a }) {
 }
 
 function Soporte() {
-  const [form, setForm] = useState({ nombre: "", correo: "", asunto: "", mensaje: "" });
+  const [form, setForm] = useState({
+    nombre: "",
+    correo: "",
+    asunto: "",
+    mensaje: "",
+  });
   const [sent, setSent] = useState(false);
 
-  const handleChange = e =>
-    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  const handleChange = (e) =>
+    setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
 
-  const handleSubmit = e => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setSent(true);
+
+    try {
+      await emailjs.send(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        {
+          nombre: form.nombre,
+          correo: form.correo,
+          asunto: form.asunto,
+          mensaje: form.mensaje,
+        },
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
+      );
+
+      setSent(true);
+
+      setForm({
+        nombre: "",
+        correo: "",
+        asunto: "",
+        mensaje: "",
+      });
+    } catch (error) {
+      console.error("Error al enviar:", error);
+      alert("No se pudo enviar el mensaje.");
+    }
   };
 
   return (
     <div className="soporte">
-
       {/* ── Hero ── */}
       <div className="soporte__hero">
         <div className="soporte__hero-bg" aria-hidden="true">
@@ -132,22 +176,22 @@ function Soporte() {
             ¿En qué podemos <span>ayudarte?</span>
           </h1>
           <p className="soporte__hero-sub">
-            Estamos disponibles por varios canales. Elige el que más te convenga.
+            Estamos disponibles por varios canales. Elige el que más te
+            convenga.
           </p>
         </div>
       </div>
 
       <div className="soporte__inner">
-
         {/* ── Tarjetas de contacto ── */}
         <div className="soporte__cards">
-          {CONTACT_CARDS.map(card => (
+          {CONTACT_CARDS.map((card) => (
             <div
               key={card.id}
               className="soporte__card"
               style={{
-                "--card-color":        card.color,
-                "--card-color-bg":     card.colorBg,
+                "--card-color": card.color,
+                "--card-color-bg": card.colorBg,
                 "--card-color-border": card.colorBorder,
               }}
             >
@@ -165,7 +209,14 @@ function Soporte() {
                   rel="noopener noreferrer"
                 >
                   {card.cta}
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  >
                     <path d="M5 12h14M12 5l7 7-7 7" />
                   </svg>
                 </a>
@@ -180,11 +231,12 @@ function Soporte() {
 
         {/* ── FAQ + Formulario ── */}
         <div className="soporte__bottom">
-
           {/* FAQ */}
           <div className="soporte__faq">
             <div className="soporte__section-header">
-              <span className="soporte__section-label">Preguntas frecuentes</span>
+              <span className="soporte__section-label">
+                Preguntas frecuentes
+              </span>
               <h2 className="soporte__section-title">FAQ</h2>
               <div className="soporte__section-line" aria-hidden="true" />
             </div>
@@ -205,18 +257,32 @@ function Soporte() {
 
             {sent ? (
               <div className="soporte__form-success">
-                <span className="soporte__form-success-icon" aria-hidden="true">✅</span>
+                <span className="soporte__form-success-icon" aria-hidden="true">
+                  ✅
+                </span>
                 <h3>Mensaje enviado</h3>
-                <p>Te responderemos a <strong>{form.correo}</strong> en menos de 24 horas.</p>
-                <button className="btn btn-ghost" onClick={() => setSent(false)}>
+                <p>
+                  Te responderemos a <strong>{form.correo}</strong> en menos de
+                  24 horas.
+                </p>
+                <button
+                  className="btn btn-ghost"
+                  onClick={() => setSent(false)}
+                >
                   Enviar otro mensaje
                 </button>
               </div>
             ) : (
-              <form className="soporte__form" onSubmit={handleSubmit} noValidate>
+              <form
+                className="soporte__form"
+                onSubmit={handleSubmit}
+                noValidate
+              >
                 <div className="soporte__form-row">
                   <div className="soporte__field">
-                    <label className="soporte__label" htmlFor="nombre">Nombre</label>
+                    <label className="soporte__label" htmlFor="nombre">
+                      Nombre
+                    </label>
                     <input
                       id="nombre"
                       name="nombre"
@@ -229,7 +295,9 @@ function Soporte() {
                     />
                   </div>
                   <div className="soporte__field">
-                    <label className="soporte__label" htmlFor="correo">Correo</label>
+                    <label className="soporte__label" htmlFor="correo">
+                      Correo
+                    </label>
                     <input
                       id="correo"
                       name="correo"
@@ -244,7 +312,9 @@ function Soporte() {
                 </div>
 
                 <div className="soporte__field">
-                  <label className="soporte__label" htmlFor="asunto">Asunto</label>
+                  <label className="soporte__label" htmlFor="asunto">
+                    Asunto
+                  </label>
                   <input
                     id="asunto"
                     name="asunto"
@@ -258,7 +328,9 @@ function Soporte() {
                 </div>
 
                 <div className="soporte__field">
-                  <label className="soporte__label" htmlFor="mensaje">Mensaje</label>
+                  <label className="soporte__label" htmlFor="mensaje">
+                    Mensaje
+                  </label>
                   <textarea
                     id="mensaje"
                     name="mensaje"
@@ -271,16 +343,27 @@ function Soporte() {
                   />
                 </div>
 
-                <button type="submit" className="btn btn-primary soporte__submit">
+                <button
+                  type="submit"
+                  className="btn btn-primary soporte__submit"
+                >
                   Enviar mensaje
-                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                  <svg
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    width="16"
+                    height="16"
+                  >
                     <path d="M22 2 11 13M22 2 15 22l-4-9-9-4 20-7z" />
                   </svg>
                 </button>
               </form>
             )}
           </div>
-
         </div>
       </div>
     </div>
