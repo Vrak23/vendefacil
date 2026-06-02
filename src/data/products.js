@@ -5,6 +5,13 @@ export const PRODUCT_CATEGORIES = [
   { slug: "accesorios", name: "Accesorios", icon: "AC" },
 ];
 
+// Formato simple tipo "{ id, label }" para reutilizar en filtros/UI.
+export const CATEGORIES = PRODUCT_CATEGORIES.map((cat) => ({
+  id: cat.slug,
+  label: cat.name,
+}));
+
+
 const imagePath = (category, index) =>
   `/products/${category}/${category}-${String(index).padStart(2, "0")}.jpg`;
 

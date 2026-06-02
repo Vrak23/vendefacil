@@ -2,7 +2,10 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./Catalogo.css";
 import ProductCard from "../../components/productCard/ProductCard";
-import { ALL_PRODUCTS, PRODUCT_CATEGORIES } from "../../data/products";
+import { ALL_PRODUCTS, PRODUCT_CATEGORIES, CATEGORIES } from "../../data/products";
+
+import { LayoutGrid, Monitor, Gamepad2, Headphones, Mouse } from "lucide-react";
+
 
 const SORT_OPTIONS = [
   { value: "relevance", label: "Relevancia" },
@@ -73,9 +76,15 @@ function FilterSidebar({
                 onClick={() => setCategory(cat.name)}
               >
                 <div className="catalogo__filter-option-left">
-                  <span className="catalogo__filter-option-icon">{cat.icon}</span>
+                  <span className="catalogo__filter-option-icon" aria-hidden="true">
+                    {(() => {
+                      const Icon = cat.Icon;
+                      return <Icon size={16} color="var(--accent-bright)" />;
+                    })()}
+                  </span>
                   <span className="catalogo__filter-option-name">{cat.label}</span>
                 </div>
+
                 <span className="catalogo__filter-option-count">{cat.count}</span>
               </button>
             ))}
@@ -183,23 +192,33 @@ function Catalogo() {
     );
   }, [searchTerm]);
 
-  const categories = useMemo(
-    () => [
+  const categories = useMemo(() => {
+    const CATEGORY_LUCIDE_ICONS = {
+      todos: LayoutGrid,
+      electronicos: Monitor,
+      gaming: Gamepad2,
+      audio: Headphones,
+      accesorios: Mouse,
+    };
+
+    return [
       {
         name: "Todos",
         label: "Todos",
-        icon: "Todos",
+        Icon: CATEGORY_LUCIDE_ICONS.todos,
         count: productsBySearch.length,
       },
-      ...PRODUCT_CATEGORIES.map(cat => ({
+      ...PRODUCT_CATEGORIES.map((cat) => ({
         name: cat.slug,
         label: cat.name,
-        icon: cat.icon,
-        count: productsBySearch.filter(product => product.category === cat.slug).length,
+        Icon: CATEGORY_LUCIDE_ICONS[cat.slug],
+        count: productsBySearch.filter(
+          (product) => product.category === cat.slug
+        ).length,
       })),
-    ],
-    [productsBySearch]
-  );
+    ];
+  }, [productsBySearch]);
+
 
   const clearFilters = () => {
     setSelectedCategory("Todos");

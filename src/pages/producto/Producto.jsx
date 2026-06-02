@@ -131,9 +131,6 @@ function Producto() {
               Agregar al carrito
             </button>
 
-            <Link to="/catalogo" className="btn btn-ghost">
-              Ver más
-            </Link>
           </div>
 
         </div>

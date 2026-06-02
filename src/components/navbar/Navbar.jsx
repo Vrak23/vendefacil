@@ -57,14 +57,8 @@ function Navbar() {
 
           {/* Acciones */}
           <div className="navbar__actions">
-            <button className="navbar__icon-btn" aria-label="Buscar">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="11" cy="11" r="7" />
-                <path d="m21 21-4.35-4.35" strokeLinecap="round" />
-              </svg>
-            </button>
-
             <Link to="/carrito" className="navbar__icon-btn" aria-label={`Carrito, ${cartCount} productos`}>
+
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" strokeLinecap="round" strokeLinejoin="round" />
                 <line x1="3" x2="21" y1="6" y2="6" strokeLinecap="round" />
