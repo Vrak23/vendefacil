@@ -2,10 +2,13 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import "./Catalogo.css";
 import ProductCard from "../../components/productCard/ProductCard";
-import { ALL_PRODUCTS, PRODUCT_CATEGORIES, CATEGORIES } from "../../data/products";
+import {
+  ALL_PRODUCTS,
+  PRODUCT_CATEGORIES,
+  CATEGORIES,
+} from "../../data/products";
 
 import { LayoutGrid, Monitor, Gamepad2, Headphones, Mouse } from "lucide-react";
-
 
 const SORT_OPTIONS = [
   { value: "relevance", label: "Relevancia" },
@@ -17,7 +20,7 @@ const SORT_OPTIONS = [
 
 const ITEMS_PER_PAGE = 6;
 
-const normalizeText = text =>
+const normalizeText = (text) =>
   text
     .toString()
     .toLowerCase()
@@ -25,14 +28,59 @@ const normalizeText = text =>
     .replace(/[\u0300-\u036f]/g, "")
     .trim();
 
-const IconSearch = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.35-4.35" strokeLinecap="round"/></svg>;
-const IconX = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M18 6 6 18M6 6l12 12" strokeLinecap="round"/></svg>;
-const IconChevron = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-const IconGrid = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>;
-const IconList = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><line x1="8" x2="21" y1="6" y2="6" strokeLinecap="round"/><line x1="8" x2="21" y1="12" y2="12" strokeLinecap="round"/><line x1="8" x2="21" y1="18" y2="18" strokeLinecap="round"/><line x1="3" x2="3.01" y1="6" y2="6" strokeLinecap="round"/><line x1="3" x2="3.01" y1="12" y2="12" strokeLinecap="round"/><line x1="3" x2="3.01" y1="18" y2="18" strokeLinecap="round"/></svg>;
-const IconFilter = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-const IconLeft = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m15 18-6-6 6-6" strokeLinecap="round" strokeLinejoin="round"/></svg>;
-const IconRight = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="m9 18 6-6-6-6" strokeLinecap="round" strokeLinejoin="round"/></svg>;
+const IconSearch = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <circle cx="11" cy="11" r="7" />
+    <path d="m21 21-4.35-4.35" strokeLinecap="round" />
+  </svg>
+);
+const IconX = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="M18 6 6 18M6 6l12 12" strokeLinecap="round" />
+  </svg>
+);
+const IconChevron = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="m6 9 6 6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const IconGrid = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <rect x="3" y="3" width="7" height="7" rx="1" />
+    <rect x="14" y="3" width="7" height="7" rx="1" />
+    <rect x="3" y="14" width="7" height="7" rx="1" />
+    <rect x="14" y="14" width="7" height="7" rx="1" />
+  </svg>
+);
+const IconList = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <line x1="8" x2="21" y1="6" y2="6" strokeLinecap="round" />
+    <line x1="8" x2="21" y1="12" y2="12" strokeLinecap="round" />
+    <line x1="8" x2="21" y1="18" y2="18" strokeLinecap="round" />
+    <line x1="3" x2="3.01" y1="6" y2="6" strokeLinecap="round" />
+    <line x1="3" x2="3.01" y1="12" y2="12" strokeLinecap="round" />
+    <line x1="3" x2="3.01" y1="18" y2="18" strokeLinecap="round" />
+  </svg>
+);
+const IconFilter = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <polygon
+      points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    />
+  </svg>
+);
+const IconLeft = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="m15 18-6-6 6-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+const IconRight = () => (
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+    <path d="m9 18 6-6-6-6" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
 
 function FilterSidebar({
   categories,
@@ -46,46 +94,84 @@ function FilterSidebar({
   onClose,
   isMobile,
 }) {
-  const activeCount = (category !== "Todos" ? 1 : 0) + (maxPrice < 5000 ? 1 : 0);
+  const activeCount =
+    (category !== "Todos" ? 1 : 0) + (maxPrice < 5000 ? 1 : 0);
 
   return (
     <>
       {isMobile && (
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "var(--space-lg)" }}>
-          <span style={{ fontFamily: "var(--font-display)", fontWeight: 700, fontSize: 16, color: "var(--text-primary)" }}>Filtros</span>
-          <button onClick={onClose} style={{ background: "none", border: "none", color: "var(--text-muted)", cursor: "pointer", display: "flex" }}>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            marginBottom: "var(--space-lg)",
+          }}
+        >
+          <span
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 700,
+              fontSize: 16,
+              color: "var(--text-primary)",
+            }}
+          >
+            Filtros
+          </span>
+          <button
+            onClick={onClose}
+            style={{
+              background: "none",
+              border: "none",
+              color: "var(--text-muted)",
+              cursor: "pointer",
+              display: "flex",
+            }}
+          >
             <IconX />
           </button>
         </div>
       )}
 
       <div className="catalogo__filter-group">
-        <div className="catalogo__filter-group-header" onClick={() => toggleGroup("categoria")}>
+        <div
+          className="catalogo__filter-group-header"
+          onClick={() => toggleGroup("categoria")}
+        >
           <span className="catalogo__filter-group-title">Categoria</span>
-          <span className={`catalogo__filter-group-chevron${openGroups.categoria ? " open" : ""}`}>
+          <span
+            className={`catalogo__filter-group-chevron${openGroups.categoria ? " open" : ""}`}
+          >
             <IconChevron />
           </span>
         </div>
 
         {openGroups.categoria && (
           <div className="catalogo__filter-group-body">
-            {categories.map(cat => (
+            {categories.map((cat) => (
               <button
                 key={cat.name}
                 className={`catalogo__filter-option${category === cat.name ? " active" : ""}`}
                 onClick={() => setCategory(cat.name)}
               >
                 <div className="catalogo__filter-option-left">
-                  <span className="catalogo__filter-option-icon" aria-hidden="true">
+                  <span
+                    className="catalogo__filter-option-icon"
+                    aria-hidden="true"
+                  >
                     {(() => {
                       const Icon = cat.Icon;
                       return <Icon size={16} color="var(--accent-bright)" />;
                     })()}
                   </span>
-                  <span className="catalogo__filter-option-name">{cat.label}</span>
+                  <span className="catalogo__filter-option-name">
+                    {cat.label}
+                  </span>
                 </div>
 
-                <span className="catalogo__filter-option-count">{cat.count}</span>
+                <span className="catalogo__filter-option-count">
+                  {cat.count}
+                </span>
               </button>
             ))}
           </div>
@@ -93,9 +179,14 @@ function FilterSidebar({
       </div>
 
       <div className="catalogo__filter-group">
-        <div className="catalogo__filter-group-header" onClick={() => toggleGroup("precio")}>
+        <div
+          className="catalogo__filter-group-header"
+          onClick={() => toggleGroup("precio")}
+        >
           <span className="catalogo__filter-group-title">Precio maximo</span>
-          <span className={`catalogo__filter-group-chevron${openGroups.precio ? " open" : ""}`}>
+          <span
+            className={`catalogo__filter-group-chevron${openGroups.precio ? " open" : ""}`}
+          >
             <IconChevron />
           </span>
         </div>
@@ -105,7 +196,9 @@ function FilterSidebar({
             <div className="catalogo__price-range">
               <div className="catalogo__price-labels">
                 <span>S/ 0</span>
-                <span style={{ color: "var(--accent-bright)" }}>S/ {maxPrice.toLocaleString()}</span>
+                <span style={{ color: "var(--accent-bright)" }}>
+                  S/ {maxPrice.toLocaleString()}
+                </span>
               </div>
               <input
                 type="range"
@@ -114,7 +207,7 @@ function FilterSidebar({
                 max={5000}
                 step={50}
                 value={maxPrice}
-                onChange={event => setMaxPrice(Number(event.target.value))}
+                onChange={(event) => setMaxPrice(Number(event.target.value))}
                 style={{ "--val": `${(maxPrice / 5000) * 100}%` }}
               />
             </div>
@@ -129,7 +222,11 @@ function FilterSidebar({
       )}
 
       {isMobile && (
-        <button className="btn btn-primary" onClick={onClose} style={{ marginTop: "auto" }}>
+        <button
+          className="btn btn-primary"
+          onClick={onClose}
+          style={{ marginTop: "auto" }}
+        >
           Ver resultados
         </button>
       )}
@@ -140,7 +237,9 @@ function FilterSidebar({
 function Catalogo() {
   const [searchParams, setSearchParams] = useSearchParams();
   const initialCategory = searchParams.get("categoria") ?? "Todos";
-  const validInitialCategory = PRODUCT_CATEGORIES.some(cat => cat.slug === initialCategory)
+  const validInitialCategory = PRODUCT_CATEGORIES.some(
+    (cat) => cat.slug === initialCategory,
+  )
     ? initialCategory
     : "Todos";
 
@@ -151,10 +250,13 @@ function Catalogo() {
   const [viewMode, setViewMode] = useState("grid");
   const [page, setPage] = useState(1);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [openGroups, setOpenGroups] = useState({ categoria: true, precio: true });
+  const [openGroups, setOpenGroups] = useState({
+    categoria: true,
+    precio: true,
+  });
 
-  const toggleGroup = key =>
-    setOpenGroups(prev => ({ ...prev, [key]: !prev[key] }));
+  const toggleGroup = (key) =>
+    setOpenGroups((prev) => ({ ...prev, [key]: !prev[key] }));
 
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
@@ -165,12 +267,12 @@ function Catalogo() {
 
   useEffect(() => {
     const nextCategory = searchParams.get("categoria") ?? "Todos";
-    const isValid = PRODUCT_CATEGORIES.some(cat => cat.slug === nextCategory);
+    const isValid = PRODUCT_CATEGORIES.some((cat) => cat.slug === nextCategory);
     setCategory(isValid ? nextCategory : "Todos");
     setPage(1);
   }, [searchParams]);
 
-  const setSelectedCategory = nextCategory => {
+  const setSelectedCategory = (nextCategory) => {
     setCategory(nextCategory);
     setPage(1);
 
@@ -187,8 +289,10 @@ function Catalogo() {
   const productsBySearch = useMemo(() => {
     if (!searchTerm) return ALL_PRODUCTS;
 
-    return ALL_PRODUCTS.filter(product =>
-      normalizeText(`${product.title} ${product.categoryName}`).includes(searchTerm)
+    return ALL_PRODUCTS.filter((product) =>
+      normalizeText(`${product.title} ${product.categoryName}`).includes(
+        searchTerm,
+      ),
     );
   }, [searchTerm]);
 
@@ -213,12 +317,11 @@ function Catalogo() {
         label: cat.name,
         Icon: CATEGORY_LUCIDE_ICONS[cat.slug],
         count: productsBySearch.filter(
-          (product) => product.category === cat.slug
+          (product) => product.category === cat.slug,
         ).length,
       })),
     ];
   }, [productsBySearch]);
-
 
   const clearFilters = () => {
     setSelectedCategory("Todos");
@@ -232,8 +335,9 @@ function Catalogo() {
   };
 
   const filtered = useMemo(() => {
-    const result = productsBySearch.filter(product => {
-      const matchesCategory = category === "Todos" || product.category === category;
+    const result = productsBySearch.filter((product) => {
+      const matchesCategory =
+        category === "Todos" || product.category === category;
       const matchesPrice = product.price <= maxPrice;
       return matchesCategory && matchesPrice;
     });
@@ -256,11 +360,11 @@ function Catalogo() {
   const currentPage = Math.min(page, totalPages);
   const paginated = filtered.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
-    currentPage * ITEMS_PER_PAGE
+    currentPage * ITEMS_PER_PAGE,
   );
 
   const categoryLabel =
-    PRODUCT_CATEGORIES.find(cat => cat.slug === category)?.name ?? category;
+    PRODUCT_CATEGORIES.find((cat) => cat.slug === category)?.name ?? category;
 
   const activeTags = [
     category !== "Todos" && {
@@ -286,7 +390,7 @@ function Catalogo() {
     },
   ].filter(Boolean);
 
-  const goToPage = nextPage => {
+  const goToPage = (nextPage) => {
     setPage(nextPage);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -323,7 +427,7 @@ function Catalogo() {
               className="catalogo__search"
               placeholder="Buscar productos..."
               value={search}
-              onChange={event => {
+              onChange={(event) => {
                 setSearch(event.target.value);
                 setPage(1);
               }}
@@ -364,7 +468,7 @@ function Catalogo() {
             category={category}
             setCategory={setSelectedCategory}
             maxPrice={maxPrice}
-            setMaxPrice={value => {
+            setMaxPrice={(value) => {
               setMaxPrice(value);
               setPage(1);
             }}
@@ -378,7 +482,14 @@ function Catalogo() {
 
         <div className="catalogo__main">
           <div className="catalogo__toolbar">
-            <div style={{ display: "flex", alignItems: "center", gap: "var(--space-md)", flexWrap: "wrap" }}>
+            <div
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "var(--space-md)",
+                flexWrap: "wrap",
+              }}
+            >
               <button
                 className="catalogo__filter-toggle"
                 onClick={() => setMobileOpen(true)}
@@ -387,11 +498,14 @@ function Catalogo() {
                 <IconFilter />
                 Filtros
                 {activeTags.length > 0 && (
-                  <span className="catalogo__filter-badge">{activeTags.length}</span>
+                  <span className="catalogo__filter-badge">
+                    {activeTags.length}
+                  </span>
                 )}
               </button>
               <span className="catalogo__count">
-                <strong>{filtered.length}</strong> producto{filtered.length !== 1 ? "s" : ""}
+                <strong>{filtered.length}</strong> producto
+                {filtered.length !== 1 ? "s" : ""}
               </span>
             </div>
 
@@ -399,13 +513,13 @@ function Catalogo() {
               <select
                 className="catalogo__sort"
                 value={sortBy}
-                onChange={event => {
+                onChange={(event) => {
                   setSortBy(event.target.value);
                   setPage(1);
                 }}
                 aria-label="Ordenar por"
               >
-                {SORT_OPTIONS.map(option => (
+                {SORT_OPTIONS.map((option) => (
                   <option key={option.value} value={option.value}>
                     {option.label}
                   </option>
@@ -432,11 +546,18 @@ function Catalogo() {
           </div>
 
           {activeTags.length > 0 && (
-            <div className="catalogo__active-filters" role="group" aria-label="Filtros activos">
-              {activeTags.map(tag => (
+            <div
+              className="catalogo__active-filters"
+              role="group"
+              aria-label="Filtros activos"
+            >
+              {activeTags.map((tag) => (
                 <span key={tag.key} className="catalogo__active-tag">
                   {tag.label}
-                  <button onClick={tag.clear} aria-label={`Quitar filtro: ${tag.label}`}>
+                  <button
+                    onClick={tag.clear}
+                    aria-label={`Quitar filtro: ${tag.label}`}
+                  >
                     <IconX />
                   </button>
                 </span>
@@ -444,9 +565,11 @@ function Catalogo() {
             </div>
           )}
 
-          <div className={`catalogo__grid${viewMode === "list" ? " list-view" : ""}`}>
+          <div
+            className={`catalogo__grid${viewMode === "list" ? " list-view" : ""}`}
+          >
             {paginated.length > 0 ? (
-              paginated.map(product => (
+              paginated.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))
             ) : (
@@ -474,17 +597,19 @@ function Catalogo() {
                 <IconLeft />
               </button>
 
-              {Array.from({ length: totalPages }, (_, index) => index + 1).map(nextPage => (
-                <button
-                  key={nextPage}
-                  className={`catalogo__page-btn${currentPage === nextPage ? " active" : ""}`}
-                  onClick={() => goToPage(nextPage)}
-                  aria-label={`Pagina ${nextPage}`}
-                  aria-current={currentPage === nextPage ? "page" : undefined}
-                >
-                  {nextPage}
-                </button>
-              ))}
+              {Array.from({ length: totalPages }, (_, index) => index + 1).map(
+                (nextPage) => (
+                  <button
+                    key={nextPage}
+                    className={`catalogo__page-btn${currentPage === nextPage ? " active" : ""}`}
+                    onClick={() => goToPage(nextPage)}
+                    aria-label={`Pagina ${nextPage}`}
+                    aria-current={currentPage === nextPage ? "page" : undefined}
+                  >
+                    {nextPage}
+                  </button>
+                ),
+              )}
 
               <button
                 className="catalogo__page-btn"
