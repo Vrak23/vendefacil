@@ -21,7 +21,7 @@ const CONTACT_CARDS = [
     label: "WhatsApp",
     value: "+51 902 913 653",
     description: "Respuesta inmediata en horario de atención.",
-    href: "https://wa.me/51999888777",
+    href: "https://wa.me/51902913653",
     cta: "Abrir chat",
     color: "#25d366",
     colorBg: "rgba(37, 211, 102, 0.08)",
@@ -45,7 +45,7 @@ const CONTACT_CARDS = [
     label: "Correo",
     value: "rodrigodanielllanos2@gmail.com",
     description: "Te respondemos en menos de 24 horas.",
-    href: "mailto:soporte@vendefacil.pe",
+    href: "mailto:rodrigodanielllanos2@gmail.com",
     cta: "Enviar correo",
     color: "var(--accent-bright)",
     colorBg: "var(--accent-subtle)",
@@ -135,6 +135,7 @@ function Soporte() {
     mensaje: "",
   });
   const [sent, setSent] = useState(false);
+  const [sentEmail, setSentEmail] = useState("");
 
   const handleChange = (e) =>
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
@@ -155,6 +156,7 @@ function Soporte() {
         import.meta.env.VITE_EMAILJS_PUBLIC_KEY,
       );
 
+      setSentEmail(form.correo);
       setSent(true);
 
       setForm({
@@ -269,7 +271,7 @@ function Soporte() {
                 </span>
                 <h3>Mensaje enviado</h3>
                 <p>
-                  Te responderemos a <strong>{form.correo}</strong> en menos de
+                  Te responderemos a <strong>{sentEmail}</strong> en menos de
                   24 horas.
                 </p>
                 <button

@@ -8,9 +8,9 @@ function Banner() {
 
       {/* Fondo decorativo */}
       <div className="banner__bg">
-        <div className="banner__bg-glow"  aria-hidden="true" />
+        <div className="banner__bg-glow" aria-hidden="true" />
         <div className="banner__bg-glow2" aria-hidden="true" />
-        <div className="banner__bg-grid"  aria-hidden="true" />
+        <div className="banner__bg-grid" aria-hidden="true" />
         <div className="banner__bg-noise" aria-hidden="true" />
       </div>
 
@@ -36,23 +36,34 @@ function Banner() {
 
           <div className="banner__stats">
             <div className="banner__stat">
-              <span className="banner__stat-value">+2K</span>
+              <span className="banner__stat-value">40+</span>
               <span className="banner__stat-label">Productos</span>
             </div>
+
             <div className="banner__stat">
-              <span className="banner__stat-value">98%</span>
-              <span className="banner__stat-label">Satisfacción</span>
+              <span className="banner__stat-value">6</span>
+              <span className="banner__stat-label">Categorías</span>
             </div>
+
             <div className="banner__stat">
-              <span className="banner__stat-value">24h</span>
-              <span className="banner__stat-label">Entrega</span>
+              <span className="banner__stat-value">SPA</span>
+              <span className="banner__stat-label">React</span>
             </div>
           </div>
 
           <div className="banner__buttons">
             <Link to="/tendencias" className="btn btn-primary">
               Comprar ahora
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <svg
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              >
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
             </Link>
@@ -75,20 +86,19 @@ function Banner() {
             />
           </div>
 
-          {/* Chips flotantes */}
           <div className="banner__chip banner__chip--rating">
-            <span className="banner__chip-icon">⭐</span>
+            <span className="banner__chip-icon">💻</span>
             <div className="banner__chip-text">
-              <span className="banner__chip-value">4.9 / 5.0</span>
-              <span className="banner__chip-sub">+1,200 reseñas</span>
+              <span className="banner__chip-value">Demo Frontend</span>
+              <span className="banner__chip-sub">React + Vite</span>
             </div>
           </div>
 
           <div className="banner__chip banner__chip--shipping">
             <span className="banner__chip-icon">🚀</span>
             <div className="banner__chip-text">
-              <span className="banner__chip-value">Envío gratis</span>
-              <span className="banner__chip-sub">En pedidos +S/.150</span>
+              <span className="banner__chip-value">Responsive</span>
+              <span className="banner__chip-sub">Desktop y móvil</span>
             </div>
           </div>
 

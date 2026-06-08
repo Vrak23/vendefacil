@@ -1,10 +1,12 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useCart } from "../../context/useCart";
+import { useToast } from "../../context/ToastContext";
 import "./Carrito.css";
 
 function Carrito() {
   const navigate = useNavigate();
+  const { showToast } = useToast();
   const {
     cartItems,
     cartCount,
@@ -25,7 +27,7 @@ function Carrito() {
   const confirmPurchase = () => {
     setIsProcessing(true);
     setTimeout(() => {
-      alert("✅ ¡Compra realizada con éxito!");
+      showToast("Compra simulada realizada correctamente");
       clearCart();
       setShowModal(false);
       setIsProcessing(false);
@@ -53,9 +55,9 @@ function Carrito() {
                 <path d="M16 10a4 4 0 0 1-8 0" strokeLinecap="round" />
               </svg>
             </div>
-            <h2>Tu carrito esta vacio</h2>
-            <p>Agrega productos desde el catalogo para verlos aqui.</p>
-            <Link to="/#catalogo" className="btn btn-primary">Ir al catalogo</Link>
+            <h2>Tu carrito está vacío</h2>
+            <p>Agrega productos desde el catálogo para verlos aquí.</p>
+            <Link to="/#catalogo" className="btn btn-primary">Ir al catálogo</Link>
           </div>
         ) : (
           <div className="carrito__layout">

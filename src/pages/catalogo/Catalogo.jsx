@@ -5,7 +5,6 @@ import ProductCard from "../../components/productCard/ProductCard";
 import {
   ALL_PRODUCTS,
   PRODUCT_CATEGORIES,
-  CATEGORIES,
 } from "../../data/products";
 
 import { LayoutGrid, Monitor, Gamepad2, Headphones, Mouse } from "lucide-react";
@@ -15,7 +14,7 @@ const SORT_OPTIONS = [
   { value: "price-asc", label: "Precio: menor" },
   { value: "price-desc", label: "Precio: mayor" },
   { value: "rating", label: "Mejor valorados" },
-  { value: "newest", label: "Mas nuevos" },
+  { value: "newest", label: "Más nuevos" },
 ];
 
 const ITEMS_PER_PAGE = 6;
@@ -138,7 +137,7 @@ function FilterSidebar({
           className="catalogo__filter-group-header"
           onClick={() => toggleGroup("categoria")}
         >
-          <span className="catalogo__filter-group-title">Categoria</span>
+          <span className="catalogo__filter-group-title">Categoría</span>
           <span
             className={`catalogo__filter-group-chevron${openGroups.categoria ? " open" : ""}`}
           >
@@ -183,7 +182,7 @@ function FilterSidebar({
           className="catalogo__filter-group-header"
           onClick={() => toggleGroup("precio")}
         >
-          <span className="catalogo__filter-group-title">Precio maximo</span>
+          <span className="catalogo__filter-group-title">Precio máximo</span>
           <span
             className={`catalogo__filter-group-chevron${openGroups.precio ? " open" : ""}`}
           >
@@ -236,15 +235,12 @@ function FilterSidebar({
 
 function Catalogo() {
   const [searchParams, setSearchParams] = useSearchParams();
-  const initialCategory = searchParams.get("categoria") ?? "Todos";
-  const validInitialCategory = PRODUCT_CATEGORIES.some(
-    (cat) => cat.slug === initialCategory,
-  )
-    ? initialCategory
+  const paramCategory = searchParams.get("categoria") ?? "Todos";
+  const category = PRODUCT_CATEGORIES.some((cat) => cat.slug === paramCategory)
+    ? paramCategory
     : "Todos";
 
   const [search, setSearch] = useState("");
-  const [category, setCategory] = useState(validInitialCategory);
   const [sortBy, setSortBy] = useState("relevance");
   const [maxPrice, setMaxPrice] = useState(5000);
   const [viewMode, setViewMode] = useState("grid");
@@ -265,15 +261,7 @@ function Catalogo() {
     };
   }, [mobileOpen]);
 
-  useEffect(() => {
-    const nextCategory = searchParams.get("categoria") ?? "Todos";
-    const isValid = PRODUCT_CATEGORIES.some((cat) => cat.slug === nextCategory);
-    setCategory(isValid ? nextCategory : "Todos");
-    setPage(1);
-  }, [searchParams]);
-
   const setSelectedCategory = (nextCategory) => {
-    setCategory(nextCategory);
     setPage(1);
 
     if (nextCategory === "Todos") {
@@ -404,18 +392,18 @@ function Catalogo() {
         </div>
 
         <div className="catalogo__hero-inner">
-          <nav className="catalogo__breadcrumb" aria-label="Ruta de navegacion">
+          <nav className="catalogo__breadcrumb" aria-label="Ruta de navegación">
             <Link to="/">Inicio</Link>
             <span className="catalogo__breadcrumb-sep">/</span>
-            <span className="catalogo__breadcrumb-current">Catalogo</span>
+            <span className="catalogo__breadcrumb-current">Catálogo</span>
           </nav>
 
           <h1 className="catalogo__title">
-            Explora el <span>catalogo</span>
+            Explora el <span>catálogo</span>
           </h1>
 
           <p className="catalogo__subtitle">
-            Tecnologia premium seleccionada para quienes exigen lo mejor.
+            Tecnología premium seleccionada para quienes exigen lo mejor.
           </p>
 
           <div className="catalogo__search-wrap">
@@ -440,7 +428,7 @@ function Catalogo() {
                   setSearch("");
                   setPage(1);
                 }}
-                aria-label="Limpiar busqueda"
+                aria-label="Limpiar búsqueda"
               >
                 <IconX />
               </button>
@@ -577,7 +565,7 @@ function Catalogo() {
                 <span className="catalogo__empty-icon">?</span>
                 <p className="catalogo__empty-title">Sin resultados</p>
                 <p className="catalogo__empty-sub">
-                  Intenta con otro termino o ajusta los filtros.
+                  Intenta con otro término o ajusta los filtros.
                 </p>
                 <button className="btn btn-ghost" onClick={clearAll}>
                   Limpiar todo
@@ -587,12 +575,12 @@ function Catalogo() {
           </div>
 
           {totalPages > 1 && (
-            <nav className="catalogo__pagination" aria-label="Paginacion">
+            <nav className="catalogo__pagination" aria-label="Paginación">
               <button
                 className="catalogo__page-btn"
                 onClick={() => goToPage(currentPage - 1)}
                 disabled={currentPage === 1}
-                aria-label="Pagina anterior"
+                aria-label="Página anterior"
               >
                 <IconLeft />
               </button>
@@ -603,7 +591,7 @@ function Catalogo() {
                     key={nextPage}
                     className={`catalogo__page-btn${currentPage === nextPage ? " active" : ""}`}
                     onClick={() => goToPage(nextPage)}
-                    aria-label={`Pagina ${nextPage}`}
+                    aria-label={`Página ${nextPage}`}
                     aria-current={currentPage === nextPage ? "page" : undefined}
                   >
                     {nextPage}
@@ -615,7 +603,7 @@ function Catalogo() {
                 className="catalogo__page-btn"
                 onClick={() => goToPage(currentPage + 1)}
                 disabled={currentPage === totalPages}
-                aria-label="Pagina siguiente"
+                aria-label="Página siguiente"
               >
                 <IconRight />
               </button>

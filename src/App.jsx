@@ -6,6 +6,7 @@ import Carrito from "./pages/carrito/Carrito";
 import Tendencias from "./pages/tendencias/Tendencias";
 import Soporte from "./pages/soporte/Soporte";
 import Producto from "./pages/producto/Producto";
+import NotFound from "./pages/notFound/NotFound";
 
 import "./App.css";
 
@@ -21,6 +22,7 @@ function App() {
           <Route path="/producto/:id" element={<Producto />} />
           <Route path="/tendencias" element={<Tendencias />} />
           <Route path="/soporte" element={<Soporte />} />
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </main>
     </div>
